@@ -24,11 +24,11 @@ exports.getMovies = async (req, res) => {
 exports.getMovieById = async (req, res) => {
     const idMovie = req.params.id;
     try {
-        const Movie = await Movie.findById(idMovie);
+        const movie = await Movie.findOne({ idMovie: idMovie });
         return res.status(200).json(
             {
-                message: 'Película obtenido con éxito',
-                data: Movie
+                message: 'Película obtenida con éxito',
+                data: movie
             }
         );
     } catch (error) {
@@ -70,10 +70,10 @@ exports.updateMovie = async (req, res) => {
     const idMovie = req.params.id;
     const newData = req.body;
     try {
-        const updatedMovie = await Movie.findByIdAndUpdate(idMovie, newData, { new: true });
+        const updatedMovie = await Movie.findOneAndUpdate({ idMovie: idMovie }, newData, { new: true });
         return res.status(201).json(
             {
-                message: 'Actualizar película por ID',
+                message: 'Película actualizada con éxito',
                 data: updatedMovie
             }
         );
@@ -91,10 +91,10 @@ exports.updateMovie = async (req, res) => {
 exports.deleteMovie = async (req, res) => {
     const idMovie = req.params.id;
     try {
-        await Movie.findByIdAndDelete(idMovie);
+        await Movie.findOneAndDelete({ idMovie: idMovie });
         return res.status(201).json(
             {
-                message: 'Película eliminado con éxito'
+                message: 'Película eliminada con éxito'
             }
         );
     } catch (error) {
